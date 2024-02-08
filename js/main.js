@@ -13,6 +13,13 @@ const users = [
     email: "alikomijani@hotmail.com",
     phone: "0939690****",
   },
+  {
+    id: 3,
+    firstName: "ali",
+    lastName: "Komijani",
+    email: "alikomijani@hotmail.com",
+    phone: "0939690****",
+  },
 ];
 const userObjectKeys = ["id", "firstName", "lastName", "email", "phone"];
 
@@ -21,7 +28,14 @@ function actionGeneration() {
   const deleteButton = document.createElement("button");
   deleteButton.innerText = "Delete";
   deleteButton.addEventListener("click", deleteUser);
-  actionCell.append(deleteButton);
+  const editButton = document.createElement("button");
+  editButton.innerText = "Edit";
+  editButton.addEventListener("click", updateUser);
+  const div = document.createElement("div");
+  div.classList.add("d-flex", "space-between");
+  div.append(editButton);
+  div.append(deleteButton);
+  actionCell.append(div);
   return actionCell;
 }
 
@@ -36,9 +50,25 @@ function renderUsers() {
   appendRowToTable(rows, table);
 }
 
+function updateUser(event) {
+  const cells = event.target.closest("tr").querySelectorAll("td");
+  const userObject = {};
+  cells.forEach((cell, index) => {
+    console.log(cell, index);
+    userObject[userObjectKeys[index]] = cell.innerText;
+  });
+
+  userObjectKeys.forEach((key) => {
+    const input = document.querySelector(`input[name=${key}]`);
+    input.value = userObject[key];
+  });
+}
+
 function deleteUser(event) {
-  const elem = event.target.closest("tr");
-  elem.remove();
+  if (confirm("are you sure?")) {
+    const elem = event.target.closest("tr");
+    elem.remove();
+  }
 }
 
 function createTableRow(object, keys) {
@@ -48,6 +78,7 @@ function createTableRow(object, keys) {
     td.innerText = object[key];
     newRow.append(td);
   });
+  newRow.id = object["id"];
   newRow.append(actionGeneration());
   return newRow;
 }
@@ -63,12 +94,28 @@ function getFromDataAsObj(form) {
   return userData;
 }
 
+function updateTableRow(object, id) {
+  const row = document.getElementById(id);
+  const cells = row.querySelectorAll("td");
+  userObjectKeys.forEach((key, index) => {
+    cells[index].innerText = object[key];
+  });
+}
+
 function createUser(event) {
   event.preventDefault();
   const userData = getFromDataAsObj(event.target);
-  const row = createTableRow(userData, userObjectKeys);
   const table = document.querySelector("#users-table");
-  appendRowToTable([row], table);
+  if (userData.id) {
+    // update user
+    updateTableRow(userData, userData.id);
+    event.target.reset();
+  } else {
+    // create
+    userData.id = new Date().getTime();
+    const row = createTableRow(userData, userObjectKeys);
+    appendRowToTable([row], table);
+  }
 }
 
 const createUserForm = document.getElementById("create-user");

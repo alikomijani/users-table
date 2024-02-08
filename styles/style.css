@@ -31,6 +31,9 @@ input[type="email"] {
   margin-top: 5px;
   width: 100%;
 }
+input[hidden] {
+  display: none !important;
+}
 
 .user-form-container {
   margin-top: 20px;
@@ -45,4 +48,11 @@ label span {
 }
 label {
   display: block;
+}
+
+.d-flex {
+  display: flex;
+}
+.space-between {
+  justify-content: space-between;
 }
