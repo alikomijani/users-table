@@ -14,6 +14,7 @@ const users = [
     phone: "0939690****",
   },
 ];
+const userObjectKeys = ["id", "firstName", "lastName", "email", "phone"];
 
 function actionGeneration() {
   const actionCell = document.createElement("td");
@@ -31,7 +32,7 @@ function appendRowToTable(rows, table) {
 
 function renderUsers() {
   const table = document.querySelector("#users-table");
-  const rows = users.map((user) => createUserRow(user));
+  const rows = users.map((user) => createTableRow(user, userObjectKeys));
   appendRowToTable(rows, table);
 }
 
@@ -40,17 +41,17 @@ function deleteUser(event) {
   elem.remove();
 }
 
-function createUserRow(user) {
-  const keys = ["id", "firstName", "lastName", "email", "phone"];
+function createTableRow(object, keys) {
   const newRow = document.createElement("tr");
   keys.forEach((key) => {
     const td = document.createElement("td");
-    td.innerText = user[key];
+    td.innerText = object[key];
     newRow.append(td);
   });
   newRow.append(actionGeneration());
   return newRow;
 }
+
 function getFromDataAsObj(form) {
   // const inputs = form.querySelectorAll("input");
   // const data = {};
@@ -65,7 +66,7 @@ function getFromDataAsObj(form) {
 function createUser(event) {
   event.preventDefault();
   const userData = getFromDataAsObj(event.target);
-  const row = createUserRow(userData);
+  const row = createTableRow(userData, userObjectKeys);
   const table = document.querySelector("#users-table");
   appendRowToTable([row], table);
 }
