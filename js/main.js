@@ -24,25 +24,53 @@ function actionGeneration() {
   return actionCell;
 }
 
-function renderUsers() {
-  const tbody = document.querySelector("#users-table > tbody");
-  const keys = ["id", "firstName", "lastName", "email", "phone"];
-  const rows = users.map((user) => {
-    const newRow = document.createElement("tr");
-    keys.forEach((key) => {
-      const td = document.createElement("td");
-      td.innerText = user[key];
-      newRow.append(td);
-    });
-    newRow.append(actionGeneration());
-    return newRow;
-  });
+function appendRowToTable(rows, table) {
+  const tbody = table.querySelector("tbody");
   tbody.append(...rows);
+}
+
+function renderUsers() {
+  const table = document.querySelector("#users-table");
+  const rows = users.map((user) => createUserRow(user));
+  appendRowToTable(rows, table);
 }
 
 function deleteUser(event) {
   const elem = event.target.closest("tr");
   elem.remove();
 }
+
+function createUserRow(user) {
+  const keys = ["id", "firstName", "lastName", "email", "phone"];
+  const newRow = document.createElement("tr");
+  keys.forEach((key) => {
+    const td = document.createElement("td");
+    td.innerText = user[key];
+    newRow.append(td);
+  });
+  newRow.append(actionGeneration());
+  return newRow;
+}
+function getFromDataAsObj(form) {
+  // const inputs = form.querySelectorAll("input");
+  // const data = {};
+  // inputs.forEach((input) => {
+  //   data[input.name] = input.value;
+  // });
+  const formData = new FormData(form);
+  const userData = Object.fromEntries(formData);
+  return userData;
+}
+
+function createUser(event) {
+  event.preventDefault();
+  const userData = getFromDataAsObj(event.target);
+  const row = createUserRow(userData);
+  const table = document.querySelector("#users-table");
+  appendRowToTable([row], table);
+}
+
+const createUserForm = document.getElementById("create-user");
+createUserForm.addEventListener("submit", createUser);
 
 renderUsers();
