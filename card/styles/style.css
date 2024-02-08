@@ -1,0 +1,66 @@
+.container {
+  max-width: 1200px;
+  margin: auto;
+}
+.container-xs {
+  max-width: 200px;
+}
+
+.user-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 50px;
+  justify-content: space-between;
+}
+
+.card {
+  flex-grow: 1;
+  border-radius: 5px;
+  padding: 1px;
+  border: 1px solid black;
+  padding: 15px;
+}
+.card__header {
+  margin: 0;
+}
+.card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+.card__action {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+input[type="text"],
+input[type="tel"],
+input[type="email"] {
+  padding: 5px 10px;
+  display: block;
+  margin-top: 5px;
+}
+input[hidden] {
+  display: none !important;
+}
+
+.form-field {
+  margin: 5px;
+  margin-top: 15px;
+}
+
+label span {
+  display: inline-block;
+}
+label {
+  display: block;
+}
+
+.d-flex {
+  margin-top: 50px;
+  gap: 50px;
+  display: flex;
+  justify-content: space-between;
+}
